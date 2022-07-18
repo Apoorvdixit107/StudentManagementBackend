@@ -26,7 +26,7 @@ import static java.util.Objects.requireNonNull;
 public class JwtUtil {
 
 
-    private String SECRET_KEY = "student";
+    private final String SECRET_KEY = "student";
     private static final String DOT = ".";
     private static final String AUTHORITIES_KEY = "scopes";
     private static final GzipCompressionCodec COMPRESSION_CODEC = new GzipCompressionCodec();
