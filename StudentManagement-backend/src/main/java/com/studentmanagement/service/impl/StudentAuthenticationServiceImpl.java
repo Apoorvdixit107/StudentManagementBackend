@@ -2,7 +2,7 @@ package com.studentmanagement.service.impl;
 
 
 import com.studentmanagement.domain.Student;
-import com.studentmanagement.dto.AuthToken;
+import com.studentmanagement.dto.Response.AuthToken;
 import com.studentmanagement.helper.JwtUtil;
 import com.studentmanagement.repository.StudentRepository;
 import com.studentmanagement.service.StudentAuthenticationService;

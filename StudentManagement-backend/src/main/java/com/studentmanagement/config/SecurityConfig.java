@@ -51,6 +51,7 @@ http.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
 		auth.userDetailsService(customUserDetailsService);
+		
 }
 
 

@@ -1,4 +1,4 @@
-package com.studentmanagement.dto;
+package com.studentmanagement.dto.Request;
 
 import lombok.Getter;
 import lombok.Setter;

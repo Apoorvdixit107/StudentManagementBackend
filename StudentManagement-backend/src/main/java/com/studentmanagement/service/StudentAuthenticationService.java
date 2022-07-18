@@ -1,7 +1,7 @@
 package com.studentmanagement.service;
 
 import com.studentmanagement.domain.Student;
-import com.studentmanagement.dto.AuthToken;
+import com.studentmanagement.dto.Response.AuthToken;
 
 public interface StudentAuthenticationService {
 

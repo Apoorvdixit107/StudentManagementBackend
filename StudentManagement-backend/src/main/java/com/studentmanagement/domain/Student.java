@@ -13,7 +13,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.studentmanagement.dto.StudentDto;
+import com.studentmanagement.dto.Request.StudentDto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

@@ -11,7 +11,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.studentmanagement.domain.Professor;
-import com.studentmanagement.dto.AuthToken;
+import com.studentmanagement.dto.Response.AuthToken;
 import com.studentmanagement.helper.JwtUtil;
 import com.studentmanagement.repository.ProfessorRepo;
 import com.studentmanagement.service.ProffessorAuthenticationService;
@@ -32,12 +32,12 @@ public class ProfessorAuthenticationServiceImpl implements ProffessorAuthenticat
     public AuthToken login(String username, String password) {
 
         String encryptedPassword = checkPassword(password, username);
-        System.out.println(encryptedPassword + " hello");
+        System.out.println(encryptedPassword + " hello " + username);
         final Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(username, encryptedPassword)
         );
         SecurityContextHolder.getContext().setAuthentication(authentication);
-       
+        System.out.println(encryptedPassword + " hellohii");
         return new AuthToken(jwtUtil.generateToken(username), authentication, "Login Successful");
     }
 

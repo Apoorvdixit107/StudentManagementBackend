@@ -7,18 +7,18 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.studentmanagement.dto.AuthRequest;
-import com.studentmanagement.dto.AuthToken;
-import com.studentmanagement.dto.ProfessorDto;
-import com.studentmanagement.dto.RegistrationResponse;
-import com.studentmanagement.dto.ResponseDto;
-import com.studentmanagement.dto.StudentDto;
+import com.studentmanagement.dto.Request.AuthRequest;
+import com.studentmanagement.dto.Request.ProfessorDto;
+import com.studentmanagement.dto.Request.StudentDto;
+import com.studentmanagement.dto.Response.AuthToken;
+import com.studentmanagement.dto.Response.BaseResponse;
+import com.studentmanagement.dto.Response.RegistrationResponse;
+import com.studentmanagement.dto.Response.ResponseDto;
 import com.studentmanagement.repository.StudentRepository;
 import com.studentmanagement.service.ProfRegistrationService;
 import com.studentmanagement.service.ProffessorAuthenticationService;
 import com.studentmanagement.service.RegistrationService;
 import com.studentmanagement.service.StudentAuthenticationService;
-import com.studentmanagement.service.impl.ProfessorAuthenticationServiceImpl;
 
 @RestController
 @RequestMapping("/api/auth/register")

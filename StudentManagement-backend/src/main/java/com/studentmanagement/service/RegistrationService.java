@@ -5,7 +5,7 @@ import org.springframework.stereotype.Service;
 
 
 import com.studentmanagement.domain.Student;
-import com.studentmanagement.dto.StudentDto;
+import com.studentmanagement.dto.Request.StudentDto;
 import com.studentmanagement.repository.StudentRepository;
 
 @Service

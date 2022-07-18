@@ -1,7 +1,8 @@
 package com.studentmanagement.service;
 
 import com.studentmanagement.domain.Professor;
-import com.studentmanagement.dto.AuthToken;
+import com.studentmanagement.dto.Response.AuthToken;
+
 
 public interface ProffessorAuthenticationService {
 

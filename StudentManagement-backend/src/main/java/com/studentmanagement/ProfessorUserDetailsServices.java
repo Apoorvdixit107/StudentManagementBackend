@@ -20,8 +20,11 @@ public class ProfessorUserDetailsServices implements UserDetailsService {
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 		// TODO Auto-generated method stub
 		Optional<Professor> findByEmail = repo.findByEmail(username);
+
+		findByEmail.orElseThrow(() -> new UsernameNotFoundException("User not found : " + username));
+		Professor user = findByEmail.get();
 		
-		return findByEmail.get();
+		return user;
 	}
 
 }
