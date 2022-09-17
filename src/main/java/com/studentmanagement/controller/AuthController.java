@@ -62,7 +62,7 @@ this.authenticationService=authenticationService;
     public ResponseEntity<?> Authentication(@RequestBody ProfessorDto profDto) {
             System.out.println(profDto.getEmail());
         try {
-            profRegistrationService.create(profDto);
+            registrationService.create(profDto);
 
             AuthRequest authRequest = new AuthRequest();
             authRequest.setUsername(profDto.getEmail());
