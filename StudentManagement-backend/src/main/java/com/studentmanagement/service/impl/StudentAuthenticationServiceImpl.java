@@ -2,9 +2,11 @@ package com.studentmanagement.service.impl;
 
 
 import com.studentmanagement.domain.Student;
+import com.studentmanagement.domain.UserData;
 import com.studentmanagement.dto.Response.AuthToken;
 import com.studentmanagement.helper.JwtUtil;
 import com.studentmanagement.repository.StudentRepository;
+import com.studentmanagement.repository.UserDataRepository;
 import com.studentmanagement.service.StudentAuthenticationService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +26,7 @@ public class StudentAuthenticationServiceImpl implements StudentAuthenticationSe
     private AuthenticationManager authenticationManager;
 
     @Autowired
-    private StudentRepository studentRepository;
+    private UserDataRepository userDataRepository;
 
     @Autowired
     private JwtUtil jwtUtil;
@@ -48,7 +50,7 @@ public class StudentAuthenticationServiceImpl implements StudentAuthenticationSe
     }
 
     public String checkPassword(String password, String username) {
-        Optional<Student> userData = studentRepository.findByMobile(username);
+        Optional<UserData> userData = userDataRepository.findById(username);
         if (userData.isPresent()) {
             if (new BCryptPasswordEncoder().matches(password, userData.get().getPassword())) {
                 return userData.get().getPassword();
@@ -63,11 +65,11 @@ public class StudentAuthenticationServiceImpl implements StudentAuthenticationSe
 
     @Override
     public Boolean changePassword(String password, String username) {
-        Optional<Student> studentData = studentRepository.findByMobile(username);
+        Optional<UserData> studentData = userDataRepository.findById(username);
         if (studentData.isPresent()) {
-            Student user = studentData.get();
+            UserData user = studentData.get();
             user.setPassword(new BCryptPasswordEncoder().encode(password));
-            studentRepository.save(user);
+            userDataRepository.save(user);
             return true;
         } else {
             return false;

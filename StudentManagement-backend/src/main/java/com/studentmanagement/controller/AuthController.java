@@ -37,6 +37,11 @@ this.profRegistrationService=profRegistrationService;
 this.authenticationService=authenticationService;
     }
 
+    @PostMapping("/login")
+    public ResponseEntity<?> login(@RequestBody AuthRequest request){
+        return null;
+    }
+
     @PostMapping({ "/student", "/student/" })
     public ResponseEntity<?> Authentication(@RequestBody StudentDto studentDto) {
             System.out.println(studentDto.getMobile());

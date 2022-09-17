@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.studentmanagement.domain.Professor;
 import com.studentmanagement.dto.Request.ProfessorDto;
-import com.studentmanagement.repository.ProfessorRepo;
+import com.studentmanagement.repository.ProfessorRepository;
 
 @Service
 public class ProfRegistrationService {
@@ -16,7 +16,7 @@ public class ProfRegistrationService {
 	@Autowired
 	private ModelMapper mapper;
 	@Autowired
-	private ProfessorRepo repo;
+	private ProfessorRepository repo;
 	
     public void create(ProfessorDto studentDto){
         Professor prof =dtoToProf(studentDto);

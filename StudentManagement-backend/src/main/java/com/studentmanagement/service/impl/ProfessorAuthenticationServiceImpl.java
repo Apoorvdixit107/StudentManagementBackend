@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
 import com.studentmanagement.domain.Professor;
 import com.studentmanagement.dto.Response.AuthToken;
 import com.studentmanagement.helper.JwtUtil;
-import com.studentmanagement.repository.ProfessorRepo;
+import com.studentmanagement.repository.ProfessorRepository;
 import com.studentmanagement.service.ProffessorAuthenticationService;
 
 @Service
@@ -23,7 +23,7 @@ public class ProfessorAuthenticationServiceImpl implements ProffessorAuthenticat
     private AuthenticationManager authenticationManager;
 
     @Autowired
-    private ProfessorRepo profrepo;
+    private ProfessorRepository profrepo;
 
     @Autowired
     private JwtUtil jwtUtil;

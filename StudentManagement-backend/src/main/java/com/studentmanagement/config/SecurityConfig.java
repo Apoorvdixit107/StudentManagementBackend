@@ -1,6 +1,8 @@
 package com.studentmanagement.config;
 
 import com.studentmanagement.StudentUserDetailsService;
+import com.studentmanagement.service.UserAuthenticationService;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -20,7 +22,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class SecurityConfig extends WebSecurityConfigurerAdapter{//by eztending this class we wl override its methds to chnge the default spring secuirty config
 	
 	@Autowired
-	private StudentUserDetailsService customUserDetailsService;
+	private UserAuthenticationService customUserDetailsService;
 	
 	@Autowired
 	private JwtAuthenticationFilter jwtFilter;

@@ -25,7 +25,7 @@ import lombok.ToString;
 @Setter
 @ToString
 
-public class Student extends AbstractEntity implements UserDetails{
+public class Student implements UserDetails{
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

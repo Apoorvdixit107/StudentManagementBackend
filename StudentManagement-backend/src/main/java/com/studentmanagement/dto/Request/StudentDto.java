@@ -14,6 +14,7 @@ public class StudentDto {
     private String emailId;
     private String mobile;
     private String password;
+    
 
     public StudentDto(){
 
