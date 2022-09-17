@@ -29,6 +29,7 @@ public class UserData implements UserDetails{
     @Column(unique = true)
     private String username;
     private String role;
+    @JsonIgnore
     private String password;
     private Date createdAt;
     @JsonIgnore
