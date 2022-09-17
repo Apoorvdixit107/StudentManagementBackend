@@ -9,11 +9,13 @@ public class AuthToken {
 	private final String token;
 	private final Authentication authentication;
 	private String message;
+	private Object userData;
 
-	public AuthToken(String token, Authentication authentication, String message) {
+	public AuthToken(String token, Authentication authentication, String messag,Object userData) {
 		this.token = token;
 		this.authentication = authentication;
 		this.message = message;
+		this.userData = userData;
 	}
 	
 

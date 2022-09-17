@@ -31,6 +31,9 @@ public class StudentAuthenticationServiceImpl implements StudentAuthenticationSe
     @Autowired
     private JwtUtil jwtUtil;
 
+    @Autowired
+    private StudentRepository studentRepository;
+
     @Override
     public AuthToken login(String username, String password) {
 
@@ -40,8 +43,8 @@ public class StudentAuthenticationServiceImpl implements StudentAuthenticationSe
                 new UsernamePasswordAuthenticationToken(username, encryptedPassword)
         );
         SecurityContextHolder.getContext().setAuthentication(authentication);
-       
-        return new AuthToken(jwtUtil.generateToken(username), authentication, "Login Successful");
+        
+        return new AuthToken(jwtUtil.generateToken(username), authentication, "Login Successful",studentRepository.findByMobile(username).get());
     }
 
     @Override

@@ -38,7 +38,7 @@ public class ProfessorAuthenticationServiceImpl implements ProffessorAuthenticat
         );
         SecurityContextHolder.getContext().setAuthentication(authentication);
         System.out.println(encryptedPassword + " hellohii");
-        return new AuthToken(jwtUtil.generateToken(username), authentication, "Login Successful");
+        return new AuthToken(jwtUtil.generateToken(username), authentication, "Login Successful",profrepo.findByEmail(username).get());
     }
 
 

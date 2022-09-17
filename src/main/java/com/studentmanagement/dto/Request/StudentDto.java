@@ -1,5 +1,7 @@
 package com.studentmanagement.dto.Request;
 
+import javax.validation.constraints.Pattern;
+
 import lombok.Getter;
 import lombok.Setter;
 
@@ -12,6 +14,7 @@ public class StudentDto {
     private String lastName;
     private double attendance;
     private String emailId;
+    @Pattern(regexp = "[0-9]{10}",message = "Invalid Mobile")
     private String mobile;
     private String password;
     

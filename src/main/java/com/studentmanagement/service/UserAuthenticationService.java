@@ -28,4 +28,14 @@ public class UserAuthenticationService implements UserDetailsService{
         return user;
     }
 
+    public UserData getUserData(String username){
+        
+            Optional<UserData> findById = userDataRepository.findById(username);
+            if(findById.isPresent()){
+            return findById.get();
+            }
+            return null;
+        
+    }
+
 }

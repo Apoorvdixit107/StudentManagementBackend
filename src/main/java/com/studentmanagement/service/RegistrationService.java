@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import com.studentmanagement.domain.Professor;
 import com.studentmanagement.domain.Student;
 import com.studentmanagement.domain.UserData;
+import com.studentmanagement.dto.Request.AuthRequest;
 import com.studentmanagement.dto.Request.ProfessorDto;
 import com.studentmanagement.dto.Request.StudentDto;
 import com.studentmanagement.helper.RoleUtil;
@@ -33,6 +34,8 @@ public class RegistrationService {
         this.userDataRepository = userDataRepository;
     }
 
+    
+
     public void create(StudentDto studentDto){
         Student student = new Student(studentDto);
 
@@ -53,7 +56,7 @@ public class RegistrationService {
     
     public void create(ProfessorDto profdto){
         
-Professor prof=this.dtoToProf(profdto);
+        Professor prof=this.dtoToProf(profdto);
         String encodedPassword = new BCryptPasswordEncoder().encode(profdto.getPassword());
         prof.setPassword(encodedPassword);
         
