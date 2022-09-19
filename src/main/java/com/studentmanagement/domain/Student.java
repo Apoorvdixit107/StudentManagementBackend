@@ -81,6 +81,7 @@ public class Student implements UserDetails{
         this.username = mobile;
     }
     
+    @JsonIgnore
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         

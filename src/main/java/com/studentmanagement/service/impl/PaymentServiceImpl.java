@@ -46,7 +46,12 @@ private long pay=130100L;
 
     @Override
     public Student postPayment(PaymentDto dto) {
-       Payment payment= this.paymentRepository.save(this.dtoToPayment(dto));
+    //    Payment payment= this.paymentRepository.save(this.dtoToPayment(dto));
+        Payment payment = new Payment();
+        payment.setAmt_paid(dto.getAmt_paid());
+        payment.setPmtid(dto.getPid());
+        payment.setSid(dto.getSid());
+        
         if(dto.getAmt_paid()==pay){
           payment.setStatus(RoleUtil.FULL_STATUS);
         }
@@ -56,7 +61,13 @@ private long pay=130100L;
         else{
             payment.setStatus(RoleUtil.NO_STATUS);
         }
+        paymentRepository.save(payment);
+        Optional<Student> studentop = studentRepository.findByRollNo(String.valueOf(payment.getSid()));
+        if(studentop.isPresent()){
+            return studentop.get();
+        }
+        else return null;
 
-        return this.studentRepository.findByRollNo(payment.getSid()).get();
+        
     }
 }

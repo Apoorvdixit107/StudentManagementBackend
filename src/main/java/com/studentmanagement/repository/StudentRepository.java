@@ -12,7 +12,7 @@ import java.util.List;
 @Repository
 public interface StudentRepository extends JpaRepository<Student, String>{
     Optional<Student> findByMobile(String mobile);
-    Optional<Student> findByRollNo(long roll);
+    Optional<Student> findByRollNo(String roll);
     
     
     
