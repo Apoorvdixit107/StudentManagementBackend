@@ -29,6 +29,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{//by eztending 
 	
 	@Autowired
 	private JwtAuthenticationEntryPoint entryPoint;
+	private static final String[] AUTH_WHITELIST = {
+
+			
+		"/swagger-resources/**",
+		"/swagger-ui.html",
+		"/v2/api-docs",
+		"/webjars/**"
+};
 	
 		@Override
 	protected void configure(HttpSecurity http) throws Exception {
@@ -38,7 +46,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{//by eztending 
 	.cors()
 	.disable()
 	.authorizeRequests()
-	.antMatchers("/api/auth/register/**").permitAll()
+	.antMatchers(AUTH_WHITELIST).permitAll()
+	.antMatchers("/api/auth/register/**","/swagger-ui/**").permitAll()
 	.anyRequest().authenticated()
 	.and()
 	.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
