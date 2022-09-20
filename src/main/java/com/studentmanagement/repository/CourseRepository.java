@@ -7,5 +7,5 @@ import com.studentmanagement.domain.Course;
 
 @Repository
 public interface CourseRepository extends JpaRepository<Course,Long>{
-    
+    Course findByCourseId(String courseId);
 }

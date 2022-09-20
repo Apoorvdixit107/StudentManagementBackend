@@ -18,4 +18,9 @@ public class CourseService {
         courseRepository.save(entity);
         return entity;
     }
+    public Course get(String courseId){
+        
+        return courseRepository.findByCourseId(courseId);
+        
+    }
 }

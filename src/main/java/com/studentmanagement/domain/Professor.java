@@ -32,6 +32,7 @@ public class Professor implements UserDetails {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long pid;
     
+    @Column(unique = true)
     private String employeeId;
 
     

@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.studentmanagement.domain.UserData;
 import com.studentmanagement.dto.Request.CourseRequestDto;
 import com.studentmanagement.dto.Response.BaseResponse;
-import com.studentmanagement.helper.RoleUtil;
+import com.studentmanagement.helper.StringUtil;
 import com.studentmanagement.service.CourseService;
 
 @CrossOrigin("*")

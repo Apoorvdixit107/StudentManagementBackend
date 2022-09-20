@@ -41,6 +41,9 @@ public class Student implements UserDetails{
     private String firstName;
     private String lastName;
     private double attendance;
+    private String branch;
+    private String section;
+    private String semester;
     
 
 
@@ -70,6 +73,9 @@ public class Student implements UserDetails{
         this.emailId = studentDto.getEmailId();
         this.attendance = studentDto.getAttendance();
         this.rollNo = studentDto.getRollNo();
+        this.branch = studentDto.getBranch();
+        this.section = studentDto.getSection();
+        this.semester = studentDto.getSemester();
     }
     @JsonIgnore
     public boolean isNew() {

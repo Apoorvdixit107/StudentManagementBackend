@@ -6,12 +6,8 @@ import javax.persistence.Embeddable;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 
-import org.springframework.data.annotation.Reference;
-
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
@@ -19,12 +15,15 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-@NoArgsConstructor
-@AllArgsConstructor
-public class StudentCourse {
+public class StudentProfessor {
     @EmbeddedId
-    protected StudentCourseId id;
-    private String status;
-    
+    protected StudentProfessorId id;
+    private String courseId;
 }
 
+@Data
+@Embeddable
+class StudentProfessorId implements Serializable{
+    private String studentId;
+    private String employeeId;
+}

@@ -10,7 +10,7 @@ import com.studentmanagement.domain.Payment;
 import com.studentmanagement.domain.Student;
 import com.studentmanagement.dto.Request.PaymentDto;
 import com.studentmanagement.dto.Request.StudentDto;
-import com.studentmanagement.helper.RoleUtil;
+import com.studentmanagement.helper.StringUtil;
 import com.studentmanagement.repository.PaymentRepository;
 import com.studentmanagement.repository.StudentRepository;
 import com.studentmanagement.service.PaymentService;
@@ -53,13 +53,13 @@ private long pay=130100L;
         payment.setSid(dto.getSid());
         
         if(dto.getAmt_paid()==pay){
-          payment.setStatus(RoleUtil.FULL_STATUS);
+          payment.setStatus(StringUtil.FULL_STATUS);
         }
         else if(dto.getAmt_paid()<pay&&dto.getAmt_paid()>0){
-            payment.setStatus(RoleUtil.PARTIAL_STATUS);
+            payment.setStatus(StringUtil.PARTIAL_STATUS);
         }
         else{
-            payment.setStatus(RoleUtil.NO_STATUS);
+            payment.setStatus(StringUtil.NO_STATUS);
         }
         paymentRepository.save(payment);
         Optional<Student> studentop = studentRepository.findByRollNo(String.valueOf(payment.getSid()));

@@ -16,7 +16,7 @@ import com.studentmanagement.dto.Response.AuthToken;
 import com.studentmanagement.dto.Response.BaseResponse;
 import com.studentmanagement.dto.Response.RegistrationResponse;
 import com.studentmanagement.dto.Response.ResponseDto;
-import com.studentmanagement.helper.RoleUtil;
+import com.studentmanagement.helper.StringUtil;
 import com.studentmanagement.repository.StudentRepository;
 import com.studentmanagement.service.ProfRegistrationService;
 import com.studentmanagement.service.ProffessorAuthenticationService;
@@ -57,7 +57,7 @@ public class AuthController {
                 return ResponseEntity.ok(new ResponseDto("failure", "Invalid username"));
             }
             AuthToken token = null;
-            if (userData.getRole().equals(RoleUtil.ROLE_STUDENT)) {
+            if (userData.getRole().equals(StringUtil.ROLE_STUDENT)) {
                 token = studentAuthenticationService.login(authRequest.getUsername(),
                         authRequest.getPassword());
             } else {

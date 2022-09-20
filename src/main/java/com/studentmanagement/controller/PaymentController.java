@@ -15,18 +15,18 @@ import com.studentmanagement.service.PaymentService;
 @RestController
 @RequestMapping("/payment")
 public class PaymentController {
-    
+
     @Autowired
     private PaymentService paymentService;
 
     @GetMapping("/status/{sid}")
-    public ResponseEntity<?> getStatus(@PathVariable("sid")long sid){
-return ResponseEntity.ok(this.paymentService.getStatus(sid));
+    public ResponseEntity<?> getStatus(@PathVariable("sid") long sid) {
+        return ResponseEntity.ok(this.paymentService.getStatus(sid));
 
     }
 
     @PostMapping("/putpayment")
-    public ResponseEntity<?> postPayment(@RequestBody PaymentDto dto){
-return ResponseEntity.ok(this.paymentService.postPayment(dto));
+    public ResponseEntity<?> postPayment(@RequestBody PaymentDto dto) {
+        return ResponseEntity.ok(this.paymentService.postPayment(dto));
     }
 }

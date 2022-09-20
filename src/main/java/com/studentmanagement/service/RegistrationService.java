@@ -14,7 +14,7 @@ import com.studentmanagement.domain.UserData;
 import com.studentmanagement.dto.Request.AuthRequest;
 import com.studentmanagement.dto.Request.ProfessorDto;
 import com.studentmanagement.dto.Request.StudentDto;
-import com.studentmanagement.helper.RoleUtil;
+import com.studentmanagement.helper.StringUtil;
 import com.studentmanagement.repository.ProfessorRepository;
 import com.studentmanagement.repository.StudentRepository;
 import com.studentmanagement.repository.UserDataRepository;
@@ -45,7 +45,7 @@ public class RegistrationService {
         UserData userData = new UserData();
         userData.setCreatedAt(new Date(Calendar.getInstance().getTime().getTime()));
         userData.setPassword(encodedPassword);
-        userData.setRole(RoleUtil.ROLE_STUDENT);
+        userData.setRole(StringUtil.ROLE_STUDENT);
         userData.setUsername(student.getUsername());
         userDataRepository.save(userData);
 
@@ -63,7 +63,7 @@ public class RegistrationService {
         UserData userData = new UserData();
         userData.setCreatedAt(new Date(Calendar.getInstance().getTime().getTime()));
         userData.setPassword(encodedPassword);
-        userData.setRole(RoleUtil.ROLE_PROFESSOR);
+        userData.setRole(StringUtil.ROLE_PROFESSOR);
         userData.setUsername(prof.getUsername());
         userDataRepository.save(userData);
 
