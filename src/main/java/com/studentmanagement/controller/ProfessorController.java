@@ -13,6 +13,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.studentmanagement.domain.Professor;
 import com.studentmanagement.dto.Response.BaseResponse;
+import com.studentmanagement.repository.ProfessorRepository;
+import com.studentmanagement.service.ProfRegistrationService;
+import com.studentmanagement.service.ProffessorAuthenticationService;
 import com.studentmanagement.service.StudentService;
 
 @RestController
@@ -20,6 +23,20 @@ import com.studentmanagement.service.StudentService;
 public class ProfessorController {
     @Autowired
     private StudentService studentService;
+
+    @Autowired
+    private ProfRegistrationService professorAuthenticationService;
+
+    @GetMapping("/get{empId}")
+    public ResponseEntity<?> get(@RequestParam String empId) {
+        Professor professor = professorAuthenticationService.getByEmpId(empId);
+        if (professor == null) {
+            return ResponseEntity.ok(new BaseResponse("failure", "Not a registered professor"));
+
+        }
+
+        return ResponseEntity.ok(professor);
+    }
 
     @GetMapping("/assignProfessor{section}{branch}{semester}{courseId}")
     public ResponseEntity<?> assignProfessor(@AuthenticationPrincipal Professor professor, @RequestParam String section,

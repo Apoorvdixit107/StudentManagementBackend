@@ -19,6 +19,7 @@ import com.studentmanagement.repository.StudentRepository;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class StudentService {
@@ -31,6 +32,14 @@ public class StudentService {
 
     @Autowired
     private StudentCourseRepository studentCourseRepository;
+
+    public Student getByRollNo(String rollNo){
+        Optional<Student> optional = studentRepository.findByRollNo(rollNo);
+        if(optional.isPresent()){
+            return optional.get();
+        }
+        return null;
+    }
 
     public void assignSubjects(AssignSubjectsDto request) throws Exception{
         if(studentRepository.findByRollNo(request.getRollNo()) == null) throw new UsernameNotFoundException("Student DoesNot exits");

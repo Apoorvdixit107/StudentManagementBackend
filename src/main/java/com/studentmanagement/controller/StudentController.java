@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.studentmanagement.domain.Professor;
@@ -26,6 +27,17 @@ import com.studentmanagement.service.StudentService;
 public class StudentController {
     @Autowired
     private StudentService studentService;
+
+    @PostMapping("/get{rollNo}")
+    public ResponseEntity<?> get(@RequestParam String rollNo) {
+        Student student = studentService.getByRollNo(rollNo);
+        if (student == null) {
+            return ResponseEntity.ok(new BaseResponse("failure", "Not a registered student"));
+
+        }
+
+        return ResponseEntity.ok(student);
+    }
 
     @PostMapping("/assignSubjects")
     public ResponseEntity<?> assignSubjects(@RequestBody AssignSubjectsDto request){
@@ -55,30 +67,7 @@ public class StudentController {
 
     }
 
-    // @PostMapping("/getAllUnderProfessor")
-    // public ResponseEntity<?> getAllUnderProfessor(@AuthenticationPrincipal Professor professor) {
-    //     if (professor == null) {
-    //         return ResponseEntity.ok(new BaseResponse("failure", "Not a Professor"));
-    //     }
+   
 
-    //     Set<Student> list = studentService.getAllStudentsByProfessor(professor.getEmployeeId());
-
-    //     if (list.size() == 0) {
-    //         return ResponseEntity.ok(new BaseResponse("failure", "No student"));
-    //     } else {
-    //         return ResponseEntity.ok(list);
-    //     }
-
-    // }
-
-    // @PostMapping("/get/{rollNo}")
-    // public ResponseEntity<?> get(@PathVariable String rollNo) {
-    //     Student student = studentService.get(rollNo);
-    //     if (student == null) {
-    //         return ResponseEntity.ok(new BaseResponse("failure", "Not a registered student"));
-
-    //     }
-
-    //     return ResponseEntity.ok(student);
-    // }
+    
 }

@@ -1,5 +1,7 @@
 package com.studentmanagement.service;
 
+import java.util.Optional;
+
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -17,6 +19,16 @@ public class ProfRegistrationService {
 	private ModelMapper mapper;
 	@Autowired
 	private ProfessorRepository repo;
+
+    public Professor getByEmpId(String empId){
+       
+            Optional<Professor> optional = repo.findByEmployeeId(empId);
+            if(optional.isPresent()){
+                return optional.get();
+            }
+            return null;
+        
+    }
 	
     public void create(ProfessorDto studentDto){
         Professor prof =dtoToProf(studentDto);
