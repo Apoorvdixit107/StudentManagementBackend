@@ -8,11 +8,13 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.studentmanagement.domain.Professor;
+import com.studentmanagement.dto.Request.AssignSubjectsDto;
 import com.studentmanagement.dto.Response.BaseResponse;
 import com.studentmanagement.repository.ProfCourseRepository;
 import com.studentmanagement.repository.ProfessorRepository;
@@ -21,11 +23,15 @@ import com.studentmanagement.service.ProfRegistrationService;
 import com.studentmanagement.service.ProffessorAuthenticationService;
 import com.studentmanagement.service.StudentService;
 
+import io.swagger.v3.oas.annotations.parameters.RequestBody;
+
 @RestController
 public class ProfessorController {
     @Autowired
     private StudentService studentService;
 
+    @Autowired
+    private ProfCourseService profCourseService;
     @Autowired
     private ProfCourseService courseService;
 
@@ -64,6 +70,15 @@ Professor professor=professorAuthenticationService.getByEmpId(empId);
     }
     List<String> coursesId=this.courseService.getCoursesOfProfessor(empId);
     return ResponseEntity.ok(coursesId);
+}
+
+@PostMapping("/assign_course")
+public ResponseEntity<?> assignCourseToProfessor(@RequestBody AssignSubjectsDto dto){
+    Professor professor=professorAuthenticationService.getByEmpId(dto.getRollNo());
+    if(professor==null){
+        return ResponseEntity.ok(new BaseResponse("failure", "Not a registered professor"));
+    }
+    return ResponseEntity.ok(this.profCourseService.assignCourses(dto));
 }
     
 }
