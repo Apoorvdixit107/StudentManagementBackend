@@ -54,7 +54,7 @@ return this.courseRepository.findAllProfCourse(employeeId);
         courseid.setCourseId(courseId);
         courseid.setEmployeeId(empid);
         ProfessorCourse professorCourse = this.courseRepository.findById(courseid).get();
-        System.out.println(professorCourse);
+        this.courseRepository.delete(professorCourse);
         professorCourse.getProfCourseId().setCourseId(changeCourse);
         System.out.println(professorCourse);
         ProfessorCourse save = this.courseRepository.save(professorCourse);
