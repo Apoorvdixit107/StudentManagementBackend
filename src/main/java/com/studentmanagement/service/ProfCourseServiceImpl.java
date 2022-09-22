@@ -1,15 +1,13 @@
 package com.studentmanagement.service;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.studentmanagement.domain.ProfessorCourse;
 import com.studentmanagement.domain.ProfessorCourseId;
-import com.studentmanagement.dto.Request.AssignSubjectsDto;
+import com.studentmanagement.dto.Request.AssignCoursesDto;
 import com.studentmanagement.repository.ProfCourseRepository;
 import com.studentmanagement.repository.ProfessorRepository;
 
@@ -33,14 +31,17 @@ return this.courseRepository.findAllProfCourse(employeeId);
         return null;
     }
     @Override
-    public ProfessorCourse assignCourses(AssignSubjectsDto dto) {
-        List<String> courses=dto.getSubjects();
+    public ProfessorCourse assignCourses(AssignCoursesDto dto) {
+        List<String> courses=dto.getCourses();
        ProfessorCourse course=new ProfessorCourse();
        ProfessorCourseId courseId=new ProfessorCourseId();
         for(String str:courses){
-            courseId.setEmployeeId(dto.getRollNo());
+            courseId.setEmployeeId(dto.getEmpId());
             courseId.setCourseId(str);
             course.setProfCourseId(courseId);
+            course.setBranch(dto.getBranch());
+            course.setSection(dto.getSection());
+            course.setSemester(dto.getSemester());
            this.courseRepository.save(course);
         }
         return course;
@@ -65,7 +66,7 @@ return this.courseRepository.findAllProfCourse(employeeId);
     }
     @Override
     public void deleteAssignedCourseToProfessor(String empid) {
-        // TODO Auto-generated method stub
+        
         
     }
     

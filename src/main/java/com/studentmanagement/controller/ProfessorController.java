@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.studentmanagement.domain.Professor;
+import com.studentmanagement.dto.Request.AssignCoursesDto;
 import com.studentmanagement.dto.Request.AssignSubjectsDto;
 import com.studentmanagement.dto.Response.BaseResponse;
 import com.studentmanagement.repository.ProfCourseRepository;
@@ -73,8 +74,8 @@ Professor professor=professorAuthenticationService.getByEmpId(empId);
 }
 
 @PostMapping("/assign_course")
-public ResponseEntity<?> assignCourseToProfessor(@RequestBody AssignSubjectsDto dto){
-    Professor professor=professorAuthenticationService.getByEmpId(dto.getRollNo());
+public ResponseEntity<?> assignCourseToProfessor(@RequestBody AssignCoursesDto dto){
+    Professor professor=professorAuthenticationService.getByEmpId(dto.getEmpId());
     if(professor==null){
         return ResponseEntity.ok(new BaseResponse("failure", "Not a registered professor"));
     }
