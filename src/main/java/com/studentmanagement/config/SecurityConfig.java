@@ -1,6 +1,6 @@
 package com.studentmanagement.config;
 
-import com.studentmanagement.StudentUserDetailsService;
+
 import com.studentmanagement.service.UserAuthenticationService;
 
 import org.springframework.beans.factory.annotation.Autowired;

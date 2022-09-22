@@ -1,36 +1,36 @@
-package com.studentmanagement;
+// package com.studentmanagement;
 
-import java.util.Optional;
-
-
-import com.studentmanagement.domain.Student;
-import com.studentmanagement.repository.StudentRepository;
-
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.stereotype.Service;
+// import java.util.Optional;
 
 
-@Service
-public class StudentUserDetailsService implements UserDetailsService{
+// import com.studentmanagement.domain.Student;
+// import com.studentmanagement.repository.StudentRepository;
 
-	private final StudentRepository userRepository;
+// import org.springframework.security.core.userdetails.UserDetails;
+// import org.springframework.security.core.userdetails.UserDetailsService;
+// import org.springframework.security.core.userdetails.UsernameNotFoundException;
+// import org.springframework.stereotype.Service;
 
-	public StudentUserDetailsService(StudentRepository userRepository) {
-		this.userRepository = userRepository;
-	}
 
-	@Override
-	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+// @Service
+// public class StudentUserDetailsService implements UserDetailsService{
 
-		Optional<Student> userOptional = userRepository.findByMobile(username);
-		userOptional.orElseThrow(() -> new UsernameNotFoundException("User not found : " + username));
-		Student user = userOptional.get();
-		// user.initAuthorities();
-		return user;
+// 	private final StudentRepository userRepository;
+
+// 	public StudentUserDetailsService(StudentRepository userRepository) {
+// 		this.userRepository = userRepository;
+// 	}
+
+// 	@Override
+// 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+
+// 		Optional<Student> userOptional = userRepository.findByMobile(username);
+// 		userOptional.orElseThrow(() -> new UsernameNotFoundException("User not found : " + username));
+// 		Student user = userOptional.get();
+// 		// user.initAuthorities();
+// 		return user;
 		
-	}
+// 	}
 
-}
+// }
 
