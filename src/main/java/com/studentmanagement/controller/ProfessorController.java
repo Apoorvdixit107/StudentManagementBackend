@@ -80,5 +80,14 @@ public ResponseEntity<?> assignCourseToProfessor(@RequestBody AssignSubjectsDto 
     }
     return ResponseEntity.ok(this.profCourseService.assignCourses(dto));
 }
+
+@PostMapping("/updateCourse{empid}{courseid}{changeCourse}")
+public ResponseEntity<?> updateCourseOfProfessor(@RequestParam("empid") String empid,@RequestParam("courseid")String courseId,@RequestParam("changeCourse") String changeCourse){
+    Professor professor=professorAuthenticationService.getByEmpId(empid);
+    if(professor==null){
+        return ResponseEntity.ok(new BaseResponse("failure", "Not a registered professor"));
+    }
+    return ResponseEntity.ok(this.courseService.updateCourseAssignToProfessor(empid, courseId,changeCourse));
+}
     
 }
