@@ -1,6 +1,7 @@
 package com.studentmanagement.controller;
 
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -69,7 +70,7 @@ Professor professor=professorAuthenticationService.getByEmpId(empId);
     if(professor==null){
         return ResponseEntity.ok(new BaseResponse("failure", "Not a registered professor"));
     }
-    List<String> coursesId=this.courseService.getCoursesOfProfessor(empId);
+    Set<String> coursesId=this.courseService.getCoursesOfProfessor(empId);
     return ResponseEntity.ok(coursesId);
 }
 
@@ -89,6 +90,11 @@ public ResponseEntity<?> updateCourseOfProfessor(@RequestParam("empid") String e
         return ResponseEntity.ok(new BaseResponse("failure", "Not a registered professor"));
     }
     return ResponseEntity.ok(this.courseService.updateCourseAssignToProfessor(empid, courseId,changeCourse));
+}
+
+@GetMapping("/getSections{empId}")
+public ResponseEntity<?> getAllSections(@RequestParam("empId")String empId){
+return ResponseEntity.ok(this.courseService.getAllSectionsOfProfessor(empId));
 }
     
 }
