@@ -13,7 +13,7 @@ import lombok.ToString;
 @AllArgsConstructor
 @Data
 public class ProfessorDto {
-     	private Long pid;
+     	
 	    private String email;
 	    private String employeeId;
 		@Pattern(regexp = "[0-9]{10}",message = "Invalid Mobile")

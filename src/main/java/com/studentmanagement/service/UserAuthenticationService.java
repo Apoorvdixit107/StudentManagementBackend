@@ -21,7 +21,7 @@ public class UserAuthenticationService implements UserDetailsService{
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        Optional<UserData> userOptional = userDataRepository.findById(username);
+        Optional<UserData> userOptional = userDataRepository.findByUsername(username);
 
 		userOptional.orElseThrow(() -> new UsernameNotFoundException("User not found : " + username));
 		UserData user = userOptional.get();
@@ -30,7 +30,7 @@ public class UserAuthenticationService implements UserDetailsService{
 
     public UserData getUserData(String username){
         
-            Optional<UserData> findById = userDataRepository.findById(username);
+        Optional<UserData> findById = userDataRepository.findByUsername(username);
             if(findById.isPresent()){
             return findById.get();
             }
