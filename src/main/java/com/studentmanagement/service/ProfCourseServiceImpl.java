@@ -7,9 +7,14 @@ import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.studentmanagement.domain.CLass;
 import com.studentmanagement.domain.ProfessorCourse;
+import com.studentmanagement.domain.ProfessorCourseCLass;
+import com.studentmanagement.domain.ProfessorCourseClassId;
 import com.studentmanagement.domain.ProfessorCourseId;
 import com.studentmanagement.dto.Request.AssignCoursesDto;
+import com.studentmanagement.repository.CLassRepo;
+import com.studentmanagement.repository.ProfCourseClass;
 import com.studentmanagement.repository.ProfCourseRepository;
 import com.studentmanagement.repository.ProfessorRepository;
 
@@ -19,6 +24,11 @@ public class ProfCourseServiceImpl implements ProfCourseService{
     @Autowired
     private ProfCourseRepository courseRepository;
 
+    @Autowired
+    private ProfCourseClass courseClass;
+
+    @Autowired
+    private CLassRepo cLassRepo;
     @Autowired
     private ProfessorRepository professorRepository;
     @Override
@@ -33,20 +43,28 @@ return this.courseRepository.findAllProfCourse(employeeId);
         return null;
     }
     @Override
-    public ProfessorCourse assignCourses(AssignCoursesDto dto) {
+    public String assignCourses(AssignCoursesDto dto) {
         List<String> courses=dto.getCourses();
-       ProfessorCourse course=new ProfessorCourse();
-       ProfessorCourseId courseId=new ProfessorCourseId();
+       
+      
+       CLass classes=new CLass();
+       
+       classes.setBranch(dto.getBranch());
+            classes.setSection(dto.getSection());
+            classes.setSemester(dto.getSemester());
+            classes.setTotalStudents(dto.getTotalStudents());
+            CLass save = this.cLassRepo.save(classes);
         for(String str:courses){
+            ProfessorCourseClassId courseId=new ProfessorCourseClassId();
+            ProfessorCourseCLass course=new ProfessorCourseCLass();
             courseId.setEmployeeId(dto.getEmpId());
             courseId.setCourseId(str);
-            course.setProfCourseId(courseId);
-            course.setBranch(dto.getBranch());
-            course.setSection(dto.getSection());
-            course.setSemester(dto.getSemester());
-           this.courseRepository.save(course);
-        }
-        return course;
+            
+            courseId.setClassId(save.getId());
+            course.setProfCourseClassId(courseId);
+            this.courseClass.save(course);
+            }
+        return "Professor Save Sucessfully";
     }
     @Override
     public ProfessorCourse updateCourseAssignToProfessor(String empid, String courseId,String changeCourse) {

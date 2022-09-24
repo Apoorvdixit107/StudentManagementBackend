@@ -11,4 +11,5 @@ public class AssignCoursesDto {
     private String section;
     private String semester;
     private String branch;
+    private long totalStudents;
 }

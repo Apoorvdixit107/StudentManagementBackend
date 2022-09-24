@@ -37,6 +37,7 @@ public class ProfessorController {
     @Autowired
     private ProfCourseService courseService;
 
+   
     @Autowired
     private ProfRegistrationService professorAuthenticationService;
 
