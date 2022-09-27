@@ -13,6 +13,7 @@ import com.studentmanagement.domain.ProfessorCourseCLass;
 import com.studentmanagement.domain.ProfessorCourseClassId;
 import com.studentmanagement.domain.ProfessorCourseId;
 import com.studentmanagement.dto.Request.AssignCoursesDto;
+import com.studentmanagement.dto.Request.CLassDto;
 import com.studentmanagement.repository.CLassRepo;
 import com.studentmanagement.repository.ProfCourseClass;
 import com.studentmanagement.repository.ProfCourseRepository;
@@ -107,6 +108,32 @@ return this.courseRepository.findAllProfCourse(employeeId);
 
         return null;
     }
+    @Override
+    public CLassDto defineClass(CLassDto cLassDto) {
+        // TODO Auto-generated method stub
+        
+        StringBuilder sb=new StringBuilder();
+        sb.append(cLassDto.getBranch());
+        sb.append(cLassDto.getSection());
+        sb.append(cLassDto.getSemester());
+        if(this.cLassRepo.findByClassId(sb.toString()).isPresent()){
+return null;
+        }
+        CLass cLass=new CLass();
+        cLass.setClassId(sb.toString());
+        
+        cLass.setBranch(cLassDto.getBranch());
+        cLass.setSection(cLassDto.getSection());
+        cLass.setSemester(cLassDto.getSemester());
+        cLass.setTotalStudents(cLassDto.getTotalStudents());
+       
+        System.out.println(cLass);
+        this.cLassRepo.save(cLass);
+
+
+        return cLassDto;
+    }
+
     
     
 }

@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.studentmanagement.domain.Professor;
 import com.studentmanagement.dto.Request.AssignCoursesDto;
 import com.studentmanagement.dto.Request.AssignSubjectsDto;
+import com.studentmanagement.dto.Request.CLassDto;
 import com.studentmanagement.dto.Response.BaseResponse;
 import com.studentmanagement.repository.ProfCourseRepository;
 import com.studentmanagement.repository.ProfessorRepository;
@@ -96,6 +97,11 @@ public ResponseEntity<?> updateCourseOfProfessor(@RequestParam("empid") String e
 @GetMapping("/getSections{empId}")
 public ResponseEntity<?> getAllSections(@RequestParam("empId")String empId){
 return ResponseEntity.ok(this.courseService.getAllSectionsOfProfessor(empId));
+}
+
+@PostMapping("/defineClass")
+public ResponseEntity<?> defineClass(@RequestBody CLassDto cLassDto){
+return ResponseEntity.ok(this.courseService.defineClass(cLassDto));
 }
     
 }

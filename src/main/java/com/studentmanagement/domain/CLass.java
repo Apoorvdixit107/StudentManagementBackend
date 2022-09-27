@@ -19,5 +19,7 @@ public class CLass {
     private String section;
     private String semester;
     private long totalStudents;
+    private String classId;
+
 
 }
