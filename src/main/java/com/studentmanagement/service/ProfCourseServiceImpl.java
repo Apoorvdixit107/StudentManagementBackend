@@ -46,22 +46,19 @@ return this.courseRepository.findAllProfCourse(employeeId);
     @Override
     public String assignCourses(AssignCoursesDto dto) {
         List<String> courses=dto.getCourses();
-       
-      
-       CLass classes=new CLass();
-       
-       classes.setBranch(dto.getBranch());
-            classes.setSection(dto.getSection());
-            classes.setSemester(dto.getSemester());
-            classes.setTotalStudents(dto.getTotalStudents());
-            CLass save = this.cLassRepo.save(classes);
+        String classId=dto.getBranch()+dto.getSection()+dto.getSemester();
+        if(!this.cLassRepo.findByClassId(classId).isPresent())return "class not found";
         for(String str:courses){
+            
             ProfessorCourseClassId courseId=new ProfessorCourseClassId();
             ProfessorCourseCLass course=new ProfessorCourseCLass();
+
             courseId.setEmployeeId(dto.getEmpId());
             courseId.setCourseId(str);
             
-            courseId.setClassId(save.getId());
+            courseId.setClassId(classId);
+            if((this.courseClass.findById(courseId).isPresent())){
+                continue;}
             course.setProfCourseClassId(courseId);
             this.courseClass.save(course);
             }

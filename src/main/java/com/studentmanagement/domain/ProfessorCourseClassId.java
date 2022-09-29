@@ -6,11 +6,12 @@ import javax.persistence.Embeddable;
 
 import lombok.Data;
 
-@Data
+
 @Embeddable
+@Data
 public class ProfessorCourseClassId implements Serializable{
 private String employeeId;
 private String courseId;
-private long classId;
+private String classId;
 
 }
