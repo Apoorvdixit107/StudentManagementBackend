@@ -25,6 +25,8 @@ public class StudentCourse {
     @EmbeddedId
     protected StudentCourseId id;
     private String status;
+    private Integer attendedLectures;
+    private Integer totalLectures;
     
 }
 
