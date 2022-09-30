@@ -9,11 +9,14 @@ import org.springframework.stereotype.Service;
 
 import com.studentmanagement.domain.Course;
 import com.studentmanagement.domain.ProfessorCourse;
+import com.studentmanagement.domain.ProfessorCourseCLass;
+import com.studentmanagement.domain.ProfessorCourseClassId;
 import com.studentmanagement.domain.ProfessorCourseId;
 import com.studentmanagement.domain.StudentCourse;
 import com.studentmanagement.domain.StudentCourseId;
 import com.studentmanagement.dto.Response.AttendanceResponse;
 import com.studentmanagement.dto.Response.AttendanceResponse.SubjectsAttendance;
+import com.studentmanagement.repository.ProfCourseClass;
 import com.studentmanagement.repository.ProfCourseRepository;
 import com.studentmanagement.repository.StudentCourseRepository;
 
@@ -25,6 +28,8 @@ public class StudentCourseService {
     private CourseService courseService;
     @Autowired
     private ProfCourseRepository profCourseRepository;
+    @Autowired
+    private ProfCourseClass profCourseClass;
 
     public AttendanceResponse getAttendance(String rollNo){
         AttendanceResponse response = new AttendanceResponse();
@@ -46,10 +51,10 @@ public class StudentCourseService {
     }
 
     public void markAttendance(List<String> request,String courseId,String empId) throws Exception{
-        ProfessorCourseId Id = new ProfessorCourseId();
+        ProfessorCourseClassId Id = new ProfessorCourseClassId();
         Id.setCourseId(courseId);
         Id.setEmployeeId(empId);
-        Optional<ProfessorCourse> findById = profCourseRepository.findById(Id);
+        Optional<ProfessorCourseCLass> findById = profCourseClass.findById(Id);
         if(!findById.isPresent()){throw new Exception("Only professor of this course can mark attendance");}
         Course course = courseService.get(courseId);
         if(course == null){
@@ -75,7 +80,7 @@ public class StudentCourseService {
         
         if(findById.isPresent()){
             findById.get().setTotalLectures(findById.get().getTotalLectures() +1);
-            profCourseRepository.save(findById.get());
+            profCourseClass.save(findById.get());
         }
         
         if(notEnrolled.size() != 0){
