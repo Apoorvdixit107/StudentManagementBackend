@@ -1,6 +1,7 @@
 package com.studentmanagement.service;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -8,22 +9,19 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.studentmanagement.domain.CLass;
-import com.studentmanagement.domain.ProfessorCourse;
+
 import com.studentmanagement.domain.ProfessorCourseCLass;
 import com.studentmanagement.domain.ProfessorCourseClassId;
-import com.studentmanagement.domain.ProfessorCourseId;
+
 import com.studentmanagement.dto.Request.AssignCoursesDto;
 import com.studentmanagement.dto.Request.CLassDto;
 import com.studentmanagement.repository.CLassRepo;
 import com.studentmanagement.repository.ProfCourseClass;
-import com.studentmanagement.repository.ProfCourseRepository;
 import com.studentmanagement.repository.ProfessorRepository;
 
 @Service
 public class ProfCourseServiceImpl implements ProfCourseService{
 
-    @Autowired
-    private ProfCourseRepository courseRepository;
 
     @Autowired
     private ProfCourseClass courseClass;
@@ -33,12 +31,19 @@ public class ProfCourseServiceImpl implements ProfCourseService{
     @Autowired
     private ProfessorRepository professorRepository;
     @Override
-    public Set<String> getCoursesOfProfessor(String employeeId) {
+    public Set<List<String>> getCoursesOfProfessor(String employeeId) {
         if(this.professorRepository.findByEmployeeId(employeeId).isPresent()){
 
 
-
-return this.courseRepository.findAllProfCourse(employeeId);
+Set<List<String>> set=new HashSet<>();
+ List<ProfessorCourseCLass> findByIds = this.courseClass.findByIds("",employeeId,"");
+ for(ProfessorCourseCLass str:findByIds){
+    List<String> l=new ArrayList<>();
+    l.add(str.getProfCourseClassId().getCourseId());
+    l.add(str.getProfCourseClassId().getClassId());
+set.add(l);
+ }
+ return set; 
         }
         
         return null;
@@ -65,21 +70,17 @@ return this.courseRepository.findAllProfCourse(employeeId);
         return "Professor Save Sucessfully";
     }
     @Override
-    public ProfessorCourse updateCourseAssignToProfessor(String empid, String courseId,String changeCourse) {
+    public ProfessorCourseCLass updateCourseAssignToProfessor(CLassDto cLassDto,String empid, String courseId,String changeCourse) {
         // TODO Auto-generated method stub
         
-        ProfessorCourseId courseid=new ProfessorCourseId();
-        
-        courseid.setCourseId(courseId);
-        courseid.setEmployeeId(empid);
-        ProfessorCourse professorCourse = this.courseRepository.findById(courseid).get();
-        this.courseRepository.delete(professorCourse);
-        professorCourse.getProfCourseId().setCourseId(changeCourse);
-        System.out.println(professorCourse);
-        ProfessorCourse save = this.courseRepository.save(professorCourse);
-        System.out.println(save);
-        // professorCourse.setProfCourseId(courseid);
-        return save;
+
+        String classId=cLassDto.getBranch()+cLassDto.getSection()+cLassDto.getSemester();
+        List<ProfessorCourseCLass> findByIds = this.courseClass.findByIds(classId, empid, courseId);
+        if(findByIds!=null){
+findByIds.get(0).getProfCourseClassId().setCourseId(changeCourse);
+return this.courseClass.save(findByIds.get(0));
+        }
+        return null;
         
     }
     @Override
@@ -91,16 +92,7 @@ return this.courseRepository.findAllProfCourse(employeeId);
     public List<Set<String>> getAllSectionsOfProfessor(String empid) {
         // TODO Auto-generated method stub
         if(this.professorRepository.findByEmployeeId(empid).isPresent()){
-            Set<String> courses=this.courseRepository.findAllProfCourse(empid);
-            Set<String> branches=this.courseRepository.findAllProfBranch(empid);
-            Set<String> semester=this.courseRepository.findAllProfSemester(empid);
-            Set<String> sections=this.courseRepository.findAllProfSection(empid);
-            List<Set<String>> list=new ArrayList<>();
-            list.add(courses);
-            list.add(semester);
-            list.add(sections);
-            list.add(branches);
-            return list;
+           
         }
 
         return null;
