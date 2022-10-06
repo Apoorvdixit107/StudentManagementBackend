@@ -77,7 +77,9 @@ set.add(l);
         String classId=cLassDto.getBranch()+cLassDto.getSection()+cLassDto.getSemester();
         List<ProfessorCourseCLass> findByIds = this.courseClass.findByIds(classId, empid, courseId);
         if(findByIds!=null){
+            this.courseClass.delete(findByIds.get(0));
 findByIds.get(0).getProfCourseClassId().setCourseId(changeCourse);
+
 return this.courseClass.save(findByIds.get(0));
         }
         return null;

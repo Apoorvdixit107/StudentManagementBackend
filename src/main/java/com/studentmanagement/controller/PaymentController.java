@@ -1,60 +1,104 @@
 package com.studentmanagement.controller;
 
-import org.json.JSONObject;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.TreeMap;
+
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
+import org.springframework.core.env.Environment;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.ModelAndView;
 
-import com.razorpay.Order;
-import com.razorpay.Payment;
-import com.razorpay.RazorpayClient;
-import com.razorpay.RazorpayException;
-import com.studentmanagement.dto.Request.PaymentDto;
-import com.studentmanagement.service.PaymentService;
+import com.paytm.pg.merchant.PaytmChecksum;
+import com.studentmanagement.domain.PaytmDetailPojo;
 
-@RestController
-@RequestMapping("/payment")
+@Controller
 public class PaymentController {
+    
+	@Autowired
+	private PaytmDetailPojo paytmDetailPojo;
+	@Autowired
+	private Environment env;
+	
+	@GetMapping("/")
+	public String home() {
+		return "home";
+	}
+	 @PostMapping(value = "/submitPaymentDetail")
+	    public ModelAndView getRedirect(@RequestParam(name = "CUST_ID") String customerId,
+	                                    @RequestParam(name = "TXN_AMOUNT") String transactionAmount,
+	                                    @RequestParam(name = "ORDER_ID") String orderId) throws Exception {
+	        ModelAndView modelAndView = new ModelAndView("redirect:" + paytmDetailPojo.getPaytmUrl());
+	        TreeMap<String, String> parameters = new TreeMap<>();
+	        paytmDetailPojo.getDetails().forEach((k, v) -> parameters.put(k, v));
+	        parameters.put("MOBILE_NO", env.getProperty("paytm.mobile"));
+	        parameters.put("ORDER_ID", orderId);
+	        parameters.put("TXN_AMOUNT", transactionAmount);
+	        parameters.put("CUST_ID", customerId);
+	        String checkSum = getCheckSum(parameters);
+	        parameters.put("CHECKSUMHASH", checkSum);
+	        modelAndView.addAllObjects(parameters);
+	        return modelAndView;
+	    }
+	 
+	 
+	 @PostMapping(value = "/pgresponse")
+	    public String getResponseRedirect(HttpServletRequest request, Model model) {
 
-    @Autowired
-    private PaymentService paymentService;
+	        Map<String, String[]> mapData = request.getParameterMap();
+	        TreeMap<String, String> parameters = new TreeMap<String, String>();
+	        mapData.forEach((key, val) -> parameters.put(key, val[0]));
+	        String paytmChecksum = "";
+	        if (mapData.containsKey("CHECKSUMHASH")) {
+	            paytmChecksum = mapData.get("CHECKSUMHASH")[0];
+	        for (Entry<String, String[]> requestParamsEntry : mapData.entrySet()) {
+	            if ("CHECKSUMHASH".equalsIgnoreCase(requestParamsEntry.getKey())){
+	                paytmChecksum = requestParamsEntry.getValue()[0];
+	            } else {
+	            	parameters.put(requestParamsEntry.getKey(), requestParamsEntry.getValue()[0]);
+	            }
+	        }
+	        String result;
 
-    @GetMapping("/status/{sid}")
-    public ResponseEntity<?> getStatus(@PathVariable("sid") long sid) {
-        return ResponseEntity.ok(this.paymentService.getStatus(sid));
-
-    }
-
-    @PostMapping("/putpayment")
-    public ResponseEntity<?> postPayment(@RequestBody PaymentDto dto) {
-        return ResponseEntity.ok(this.paymentService.postPayment(dto));
-    }
-
-    @PostMapping("/razPay")
-    public ResponseEntity<?> razPay() {
-        RazorpayClient razorpay;
-        try {
-            razorpay = new RazorpayClient("rzp_test_89O9RKhGbUf3", "2ZVIwGEoqCGrBuYfBzZGEQM6");
-        
-
-
-        JSONObject paymentRequest = new JSONObject();
-        paymentRequest.put("amount", 1000);
-        paymentRequest.put("currency", "INR");
-       
-
-        Order order = razorpay.orders.create(paymentRequest);
-        System.out.println(order.toJson());
-        
-        }catch (RazorpayException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-        return null;
-    }
+	        boolean isValideChecksum = false;
+	        System.out.println("RESULT : "+parameters.toString());
+	        try {
+	            isValideChecksum = validateCheckSum(parameters, paytmChecksum);
+	            if (isValideChecksum && parameters.containsKey("RESPCODE")) {
+	                if (parameters.get("RESPCODE").equals("01")) {
+	                    result = "Payment Successful";
+	                } else {
+	                    result = "Payment Failed";
+	                }
+	            } else {
+	                result = "Checksum mismatched";
+	            }
+	        } catch (Exception e) {
+	            result = e.toString();
+	        }
+	        model.addAttribute("result",result);
+	        parameters.remove("CHECKSUMHASH");
+	        model.addAttribute("parameters",parameters);
+	        return "report";
+		}
+		return "";
+	    }
+	    private boolean validateCheckSum(TreeMap<String, String> parameters, String paytmChecksum) throws Exception {
+	        return PaytmChecksum.verifySignature(parameters,
+	                paytmDetailPojo.getMerchantKey(), paytmChecksum);
+	    }
+	private String getCheckSum(TreeMap<String, String> parameters) throws Exception {
+		return PaytmChecksum.generateSignature(parameters, paytmDetailPojo.getMerchantKey());
+	}
+	
+	
+	
 }
+

@@ -47,7 +47,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{//by eztending 
 	.disable()
 	.authorizeRequests()
 	.antMatchers(AUTH_WHITELIST).permitAll()
-	.antMatchers("/api/auth/register/**","/swagger-ui/**").permitAll()
+	.antMatchers("/api/auth/register/**","/swagger-ui/**","/**").permitAll()
 	.anyRequest().authenticated()
 	.and()
 	.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
